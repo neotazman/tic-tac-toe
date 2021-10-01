@@ -1,1 +1,4 @@
 /* Write your CSS Here. */
+* {
+    outline: 1px solid crimson;
+}
