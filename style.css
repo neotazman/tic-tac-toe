@@ -2,3 +2,21 @@
 * {
     outline: 1px solid crimson;
 }
+
+#gameView {
+    /*
+    
+    display: flex;
+    */
+    
+    box-sizing: border-box;
+    height: 200vh;
+    width: 200vw;
+}
+
+#gameBoard {
+    height: 40%;
+    width: 40%;
+    align-items: center;
+    justify-content: center;
+}

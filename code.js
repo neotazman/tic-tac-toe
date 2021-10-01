@@ -15,6 +15,40 @@ const gameModel = { //the starting board
     draw: false,
 }
 
+const squares = document.querySelectorAll('td') //the array of all the clickable squares
+const gameElement = document.getElementById('gameBoard')
+
+const handleSquareClick = (e) => {
+    e.preventDefault();
+    console.log(e.target)
+    let theBoard = gameModel.gameBoard
+
+    for(let i = 0; i < 3; i++) {
+        for(let j = 0; j < 3; j++) {
+            let currentSquare = document.getElementById(`row${i} box${j}`)
+            if(currentSquare === e.target) {
+                if(gameModel.playerOneTurn) {
+                    theBoard[i][j] = 1
+                    checkWin()
+                    gameModel.playerOneTurn = false
+                    gameModel.playerTwoTurn = true
+                    console.log(theBoard)
+                } else if(gameModel.playerTwoTurn) {
+                    theBoard[i][j] = 2
+                    checkWin()
+                    gameModel.playerTwoTurn = false
+                    gameModel.playerOneTurn = true
+                    console.log(theBoard)
+                }
+                // if(checkWin()) {
+                //     console.log(gameModel)
+                // }
+            }
+        }
+    }
+    
+}
+
 const checkHorizontalWin = () => {
     let theBoard = gameModel.gameBoard //making the board its own variable and it might make it easier
     for(let row of theBoard) {
@@ -58,5 +92,19 @@ const checkDiagonalWin = () => {
             return true
         }
     }
+    return false
 }
 
+const checkWin = () => {
+    if(checkHorizontalWin || checkVerticalWin || checkDiagonalWin) {
+        if(gameModel.playerOneWin) {
+            console.log('playerOneWin')
+            console.log(gameModel)
+        } else if(gameModel.playerTwoWin) {
+            console.log('playerTwoWin')
+            console.log(gameModel)
+        }
+    }
+}
+
+gameElement.addEventListener('click', handleSquareClick)
