@@ -22,9 +22,15 @@
 }
 
 .x {
-    background-color: crimson;
+    background-color: black;
 }
 
 .o {
     background-color: gold;
+}
+
+th {
+    height: 40%;
+    font-size: 10vh;
+    padding: 0;
 }
