@@ -8,7 +8,7 @@ const gameModel = { //the starting board
         [0, 0, 0],
         [0, 0, 0],
     ],
-    playerOneTurn: true,
+    playerOneTurn: true, //game starts on player one's turn
     playerTwoTurn: false,
     playerOneWin: false,
     playerTwoWin: false,
@@ -16,24 +16,26 @@ const gameModel = { //the starting board
 }
 
 const squares = document.querySelectorAll('td') //the array of all the clickable squares
-const gameElement = document.getElementById('gameBoard')
+const gameElement = document.getElementById('gameBoard') //the element that can be clicked
 
 const handleSquareClick = (e) => {
     e.preventDefault();
     console.log(e.target)
     let theBoard = gameModel.gameBoard
 
-    for(let i = 0; i < 3; i++) {
+    for(let i = 0; i < 3; i++) { //these loops are just ways to check which specific element is chosen
         for(let j = 0; j < 3; j++) {
             let currentSquare = document.getElementById(`row${i} box${j}`)
-            if(currentSquare === e.target) {
+            if(currentSquare === e.target && !currentSquare.classList.value) {
                 if(gameModel.playerOneTurn) {
+                    currentSquare.classList.add('x')
                     theBoard[i][j] = 1
                     checkWin()
                     gameModel.playerOneTurn = false
                     gameModel.playerTwoTurn = true
                     console.log(theBoard)
                 } else if(gameModel.playerTwoTurn) {
+                    currentSquare.classList.add('o')
                     theBoard[i][j] = 2
                     checkWin()
                     gameModel.playerTwoTurn = false

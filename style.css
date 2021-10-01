@@ -20,3 +20,11 @@
     align-items: center;
     justify-content: center;
 }
+
+.x {
+    background-color: crimson;
+}
+
+.o {
+    background-color: gold;
+}
