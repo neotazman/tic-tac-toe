@@ -17,4 +17,3 @@ _(Put your project plan here. It could be pseudocode, an outline-style developme
 
 What different approaches or techniques did you consider when planning your implementation? What were the advantages and disadvantages of those alternatives?
 
-_(Put your reflection answer here.)_

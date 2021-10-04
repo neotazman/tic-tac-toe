@@ -19,30 +19,34 @@ const gameModel = { //the starting board
     gameOver: false,
 }
 
+//HTML elements
 const squares = document.querySelectorAll('td') //the array of all the clickable squares
 const gameElement = document.getElementById('gameBoard') //the element that can be clicked
 const winMessage = document.getElementById('winMessage') //the element that shows the winning message
+const turnMarker = document.getElementById('turnMarker') //the element to show whose turn it is
+turnMarker.innerText="Player One's Turn"
 
 const handleSquareClick = (e) => {
     e.preventDefault();
     let theBoard = gameModel.gameBoard
-
     for(let i = 0; i < 3; i++) { //these loops are just ways to check which specific element is chosen
         for(let j = 0; j < 3; j++) {
             let currentSquare = document.getElementById(`row${i} box${j}`)//each square has it's own class with this format so it can reference the gameBoard more easily
-            if(currentSquare === e.target && !currentSquare.classList.value) { //checks that the element clicked is the right location in the data model
+            if(currentSquare === e.target && !currentSquare.classList.value) { //checks that the element clicked is the right location in the data model and makes sure the code doesn't run if it's already been clicked
                 if(gameModel.playerOneTurn) {
-                    currentSquare.classList.add('x')
+                    currentSquare.classList.add('x')//adds a class of x for css purposes
                     theBoard[i][j] = 1
                     checkWin()
                     gameModel.playerOneTurn = false
                     gameModel.playerTwoTurn = true
+                    turnMarker.innerText = "Player Two's Turn"
                 } else if(gameModel.playerTwoTurn) {
-                    currentSquare.classList.add('o')
+                    currentSquare.classList.add('o') //i tried to add the letter o as inner text, but it screwed up the whole table
                     theBoard[i][j] = 2
                     checkWin()
                     gameModel.playerTwoTurn = false
                     gameModel.playerOneTurn = true
+                    turnMarker.innerText="Player One's Turn"
                 }
             }
         }
