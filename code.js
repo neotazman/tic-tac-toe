@@ -35,10 +35,7 @@ const checkDraw = () => { //checks if the game is over (the last time check win 
             gameEnd.push(value)
         })
     })
-
-    if(gameEnd.includes(0)) { //if a zero is in the gameboard, the game is not over
-        return 
-    } else {
+    if(!gameEnd.includes(0)) { //if a zero is in the gameboard, the game is not over
         gameModel.draw = true
         gameModel.gameOver = true
         winMessage.innerText = "The Game is a Draw"
@@ -142,11 +139,11 @@ resetButton.addEventListener('click', (event) => {//made a single callback funct
             currentSquare.classList.remove('o')
         }
     })
-    gameModel.gameBoard.forEach((currentRow) => {//resets the game model
-        currentRow.forEach((currentSquare) => {
-            currentSquare = 0 //resets each value to 0
-        })
-    })
+    gameModel.gameBoard = [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+    ]
     //reset the game values
     gameModel.playerOneTurn = true
     gameModel.playerTwoTurn = false
