@@ -35,7 +35,7 @@ const checkDraw = () => { //checks if the game is over (the last time check win 
             gameEnd.push(value)
         })
     })
-    if(!gameEnd.includes(0)) { //if a zero is in the gameboard, the game is not over
+    if(!gameEnd.includes(0) && !gameModel.gameOver) { //if a zero is in the gameboard, the game is not over
         gameModel.draw = true
         gameModel.gameOver = true
         winMessage.innerText = "The Game is a Draw"
@@ -53,6 +53,7 @@ const handleSquareClick = (event) => { //function that runs whenever a square is
                     currentSquare.classList.add('x')//adds a class of x for css purposes
                     theBoard[i][j] = 1
                     checkWin()
+
                     checkDraw()
                     gameModel.playerOneTurn = false
                     gameModel.playerTwoTurn = true
