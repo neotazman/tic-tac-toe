@@ -24,19 +24,32 @@ const squares = document.querySelectorAll('td') //the array of all the clickable
 const gameElement = document.getElementById('gameBoard') //the element that can be clicked
 const winMessage = document.getElementById('winMessage') //the element that shows the winning message
 const turnMarker = document.getElementById('turnMarker') //the element to show whose turn it is
-turnMarker.innerText="Player One's Turn"
+const resetButton = document.getElementById('resetButton') //the button to reset the game
+turnMarker.innerText="Player One's Turn" //starts the game on player one's turn
 
-const handleSquareClick = (e) => {
-    e.preventDefault();
+const checkDraw = () => { //checks if the game is over (the last time check win can be run is right before this function)
+    if(gameModel.gameBoard.forEach((row) => {
+        let answer = row.includes(0)
+        return answer
+    })) {
+        console.log(gameModel.gameBoard)
+        gameModel.draw = true
+        winMessage.innerText = "The Game is a Draw"
+    }
+}
+
+const handleSquareClick = (event) => {
+    event.preventDefault();
     let theBoard = gameModel.gameBoard
     for(let i = 0; i < 3; i++) { //these loops are just ways to check which specific element is chosen
         for(let j = 0; j < 3; j++) {
             let currentSquare = document.getElementById(`row${i} box${j}`)//each square has it's own class with this format so it can reference the gameBoard more easily
-            if(currentSquare === e.target && !currentSquare.classList.value) { //checks that the element clicked is the right location in the data model and makes sure the code doesn't run if it's already been clicked
+            if(currentSquare === event.target && !currentSquare.classList.value) { //checks that the element clicked is the right location in the data model and makes sure the code doesn't run if it's already been clicked
                 if(gameModel.playerOneTurn) {
                     currentSquare.classList.add('x')//adds a class of x for css purposes
                     theBoard[i][j] = 1
                     checkWin()
+                    checkDraw()
                     gameModel.playerOneTurn = false
                     gameModel.playerTwoTurn = true
                     turnMarker.innerText = "Player Two's Turn"
@@ -44,6 +57,7 @@ const handleSquareClick = (e) => {
                     currentSquare.classList.add('o') //i tried to add the letter o as inner text, but it screwed up the whole table
                     theBoard[i][j] = 2
                     checkWin()
+                    checkDraw()
                     gameModel.playerTwoTurn = false
                     gameModel.playerOneTurn = true
                     turnMarker.innerText="Player One's Turn"
@@ -87,7 +101,6 @@ const checkVerticalWin = () => {
 const checkDiagonalWin = () => {
     let theBoard = gameModel.gameBoard
     if(theBoard[0][0] === theBoard[1][1] && theBoard[1][1] === theBoard[2][2] || theBoard[0][2] === theBoard[1][1] && theBoard[1][1] === theBoard[2][0]) { //there's only two ways to win diagonally, so there doesn't need to be a loop to check the win
-        console.log('someone won')
         if(theBoard[1][1] === 1) { //in a diagonal win, the center square will always be part of the win
             gameModel.playerOneWin = true
             gameModel.gameOver = true
@@ -98,11 +111,11 @@ const checkDiagonalWin = () => {
     }
 }
 
-const checkWin = () => {
+const checkWin = () => { //runs after every click
     checkHorizontalWin()
     checkVerticalWin()
     checkDiagonalWin()
-    if(gameModel.gameOver === true) {
+    if(gameModel.gameOver) {
         if(gameModel.playerOneWin) {
             winMessage.innerText = 'Player One Wins!!!'
         } else if(gameModel.playerTwoWin) {
@@ -112,3 +125,30 @@ const checkWin = () => {
 }
 
 gameElement.addEventListener('click', handleSquareClick)
+resetButton.addEventListener('click', (event) => {//made a single callback function for the reset button
+    event.preventDefault()
+    console.log(squares)
+    //clearing the squares
+    squares.forEach((currentSquare) => {
+        if(currentSquare.classList.value === 'x') {
+            currentSquare.classList.remove('x')
+        } else if(currentSquare.classList.value === 'o') {
+            currentSquare.classList.remove('o')
+        }
+    })
+    gameModel.gameBoard.forEach((currentRow) => {//resets the game model
+        currentRow.forEach((currentSquare) => {
+            currentSquare = 0 //resets each value to 0
+        })
+    })
+    //reset the game values
+    gameModel.playerOneTurn = true
+    gameModel.playerTwoTurn = false
+    gameModel.playerOneWin = false
+    gameModel.playerTwoWin = false
+    gameModel.draw = false
+    gameModel.gameOver = false    
+    //reset the display messages
+    winMessage.innerText = ""
+    turnMarker.innerText = "Player One's Turn"
+})
