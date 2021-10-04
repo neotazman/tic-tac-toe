@@ -28,17 +28,24 @@ const resetButton = document.getElementById('resetButton') //the button to reset
 turnMarker.innerText="Player One's Turn" //starts the game on player one's turn
 
 const checkDraw = () => { //checks if the game is over (the last time check win can be run is right before this function)
-    if(gameModel.gameBoard.forEach((row) => {
-        let answer = row.includes(0)
-        return answer
-    })) {
-        console.log(gameModel.gameBoard)
+    let gameEnd = [] //one array to hold all gameboard values
+
+    gameModel.gameBoard.forEach((row) => { //putting each value into one array
+        row.forEach((value) => {
+            gameEnd.push(value)
+        })
+    })
+
+    if(gameEnd.includes(0)) { //if a zero is in the gameboard, the game is not over
+        return 
+    } else {
         gameModel.draw = true
+        gameModel.gameOver = true
         winMessage.innerText = "The Game is a Draw"
     }
 }
 
-const handleSquareClick = (event) => {
+const handleSquareClick = (event) => { //function that runs whenever a square is clicked
     event.preventDefault();
     let theBoard = gameModel.gameBoard
     for(let i = 0; i < 3; i++) { //these loops are just ways to check which specific element is chosen
@@ -127,7 +134,6 @@ const checkWin = () => { //runs after every click
 gameElement.addEventListener('click', handleSquareClick)
 resetButton.addEventListener('click', (event) => {//made a single callback function for the reset button
     event.preventDefault()
-    console.log(squares)
     //clearing the squares
     squares.forEach((currentSquare) => {
         if(currentSquare.classList.value === 'x') {
