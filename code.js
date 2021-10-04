@@ -48,7 +48,7 @@ const handleSquareClick = (event) => { //function that runs whenever a square is
     for(let i = 0; i < 3; i++) { //these loops are just ways to check which specific element is chosen
         for(let j = 0; j < 3; j++) {
             let currentSquare = document.getElementById(`row${i} box${j}`)//each square has it's own class with this format so it can reference the gameBoard more easily
-            if(currentSquare === event.target && !currentSquare.classList.value) { //checks that the element clicked is the right location in the data model and makes sure the code doesn't run if it's already been clicked
+            if(currentSquare === event.target && !currentSquare.classList.value && !gameModel.gameOver) { //checks that the element clicked is the right location in the data model and makes sure the code doesn't run if it's already been clicked or the game is over
                 if(gameModel.playerOneTurn) {
                     currentSquare.classList.add('x')//adds a class of x for css purposes
                     theBoard[i][j] = 1
@@ -115,7 +115,7 @@ const checkDiagonalWin = () => {
     }
 }
 
-const checkWin = () => { //runs after every click
+const checkWin = () => { //runs after every click (checks the data model, not the dom)
     checkHorizontalWin()
     checkVerticalWin()
     checkDiagonalWin()
