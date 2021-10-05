@@ -17,3 +17,4 @@ _(Put your project plan here. It could be pseudocode, an outline-style developme
 
 What different approaches or techniques did you consider when planning your implementation? What were the advantages and disadvantages of those alternatives?
 
+honestly i was trying to figure out any implementation that would work. i know there's probably an easier way to link the data model to the html elements, but i couldn't figure that out.
